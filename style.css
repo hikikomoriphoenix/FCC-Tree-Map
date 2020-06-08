@@ -1,0 +1,13 @@
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cell-text {
+  display: inline-block;
+  position: absolute;
+  color: white;
+  font-size: 10px;
+  font-family: "Roboto", san-sans-serif;
+}
