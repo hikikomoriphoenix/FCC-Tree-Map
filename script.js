@@ -13,7 +13,9 @@ function showTreeMap(dataset) {
     .attr("height", h)
     .style("margin-top", "50px");
 
-  const root = d3.hierarchy(dataset).sum(d => d.value);
+  const root = d3.hierarchy(dataset)
+    .sum(d => d.value)
+    .sort((a, b) => b.height - a.height || b.value - a.value);
 
   d3.treemap()
     .size([w, h])
@@ -60,33 +62,34 @@ function showTreeMap(dataset) {
   const legendPadding = 160;
 
   const legend = d3.select("main")
-  .append("svg")
-  .attr("id", "legend")
-  .attr("width", legendW + legendPadding*2)
-  .attr("height", legendH)
-  .style("margin-top", "50px");
+    .append("svg")
+    .attr("id", "legend")
+    .attr("width", legendW + legendPadding * 2)
+    .attr("height", legendH)
+    .style("margin-top", "50px")
+    .style("margin-bottom", "100px");
 
   legend.selectAll("rect")
-  .data(dataset.children.map(c => c.name))
-  .enter()
-  .append("rect")
-  .attr("class", "legend-item")
-  .attr("x", (d,i) => legendPadding + legendItemSize * i)
-  .attr("y", (d,i) => legendH - legendItemSize)
-  .attr("width", legendItemSize)
-  .attr("height", legendItemSize)
-  .attr("fill", d => colorScale(d));
+    .data(dataset.children.map(c => c.name))
+    .enter()
+    .append("rect")
+    .attr("class", "legend-item")
+    .attr("x", (d, i) => legendPadding + legendItemSize * i)
+    .attr("y", (d, i) => legendH - legendItemSize)
+    .attr("width", legendItemSize)
+    .attr("height", legendItemSize)
+    .attr("fill", d => colorScale(d));
 
   legend.selectAll("text")
-  .data(dataset.children.map(c => c.name))
-  .enter()
-  .append("text")
-  .attr("x", 0)
-  .attr("y", 0)
-  .attr("fill", "white")
-  .attr("transform", (d,i) =>
-   `translate(${legendPadding + legendItemSize * i + 20},${legendH - legendItemSize - 5})rotate(-60)`)
-  .style("text-anchor", "start")
-  .style("font-size", "18px")
-  .text(d => d);
+    .data(dataset.children.map(c => c.name))
+    .enter()
+    .append("text")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("fill", "white")
+    .attr("transform", (d, i) =>
+      `translate(${legendPadding + legendItemSize * i + 20},${legendH - legendItemSize - 5})rotate(-60)`)
+    .style("text-anchor", "start")
+    .style("font-size", "18px")
+    .text(d => d);
 }
