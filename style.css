@@ -17,3 +17,14 @@ main {
   font-size: 10px;
   font-family: "Roboto", san-sans-serif;
 }
+
+#tooltip {
+  display: inline-block;
+  position: absolute;
+  pointer-events: none;
+  background-color: white;
+  color: black;
+  font-size: 14px;
+  opacity: 0;
+  padding: 7px;
+}

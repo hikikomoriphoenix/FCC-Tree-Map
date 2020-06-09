@@ -38,7 +38,19 @@ function showTreeMap(dataset) {
     .style("fill", d => colorScale(d.parent.data.name))
     .attr("data-name", d => d.data.name)
     .attr("data-category", d => d.data.category)
-    .attr("data-value", d => d.data.value);
+    .attr("data-value", d => d.data.value)
+    .on("mouseover", d => {
+      const value = d.data.value;
+
+      tooltip.style("opacity", 1)
+      .style("left", (d3.event.pageX + 10) + "px")
+      .style("top", (d3.event.pageY) + "px")
+      .html(`<strong>Title: ${d.data.name}<br>Genre: ${d.data.category}<br>Sales: ${value}</strong>`)
+      .attr("data-value", value);
+    })
+    .on("mouseout", d => {
+      tooltip.style("opacity", 0);
+    });
 
   d3.select("main")
     .selectAll("div")
@@ -92,4 +104,8 @@ function showTreeMap(dataset) {
     .style("text-anchor", "start")
     .style("font-size", "18px")
     .text(d => d);
+
+  const tooltip = d3.select("main")
+  .append("div")
+  .attr("id", "tooltip");
 }
